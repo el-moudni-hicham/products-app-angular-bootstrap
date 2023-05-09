@@ -1,0 +1,65 @@
+<div class="container mt-4">
+  <ng-template #errors>
+    <div class="text-danger">
+      {{errMessage}}
+    </div>
+  </ng-template>
+<div class="card" *ngIf="products; else errors">
+  <div class="card-header">
+    All Products
+  </div>
+  <div class="card-body">
+    <form class="d-flex" [formGroup]="searchFormGroup" (ngSubmit)="handleSearchProduct()">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" formControlName="keyword">
+      <button class="btn btn-outline-success border-0" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+<!--    {{searchFormGroup.value | json }}-->
+    <table class="table">
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>NAME</td>
+          <td>PRICE</td>
+          <td>PROMOTION</td>
+          <td>ACTIONS</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of products">
+          <td>{{p.id}}</td>
+          <td>{{p.name}}</td>
+          <td>{{p.price}}</td>
+          <td>
+            <button (click)="handleSetPromotion(p)" [ngClass]="p.promotion == true?'btn-outline-danger':'btn-outline-info'" class="btn btn-sm">
+              <span *ngIf="p.promotion == false">Enable</span>
+              <span *ngIf="p.promotion == true">Disable</span>
+            </button>
+            &nbsp;
+            <i *ngIf="p.promotion == true" class="bi bi-heart-fill text-success"></i>
+          </td>
+          <td>
+            <button (click)= "handledeleteProduct(p)" class="btn btn-danger btn-sm">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination pagination-sm">
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let item of [].constructor(this.totalPages); let i = index;"><a class="page-link" (click)="goToPage(i)">{{i+1}}</a></li>
+        <li class="page-item">
+          <a  class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+</div>
